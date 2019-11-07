@@ -65,14 +65,15 @@ def getInt2in8bitsInt(num):
 
 
 # 根据计算LAT的方法（详见实验报告）。填充LAT表,由于每个输入x可以由S盒拿到对应输出，因此按这个进行256次运算。
+# LAT的行为x的参与异或位情况，列为y参与异或位情况
 def appendS0LAT():
-    for inputS in range(0, 256):  # 对每一个输入S0盒的X进行计算,inputS即为X
+    for inputS in range(0, 256):  # 对每一个输入S0盒的x进行计算
         input_1 = inputS >> 4
         input_2 = inputS % 16
-        outputS = int(SBox0[input_1][input_2], 16)  # outputS即为输出Y
+        outputS = int(SBox0[input_1][input_2], 16)
         # X中8位的256种不同的异或情况
         # 2的8次方，8位，每位分别有参与异或和不参与两种情况
-        for input_x in range(0, 256):  # input_x为设置的8位二进制数整数计数器
+        for input_x in range(0, 256):
             xor_x = 0
             ls_x = getInt2in8bitsInt(input_x)
             for i in range(0, 8):
@@ -80,7 +81,7 @@ def appendS0LAT():
                     tem = (inputS >> i) & 1
                     xor_x = xor_x ^ tem
             # 同理，Y中8位的也有256种不同的异或情况
-            for input_y in range(0, 256):  # input_y为设置的8位二进制数整数计数器
+            for input_y in range(0, 256):
                 xor_y = 0
                 ls_y = getInt2in8bitsInt(input_y)
                 for i in range(0, 8):
@@ -90,12 +91,10 @@ def appendS0LAT():
                 if xor_x == xor_y:
                     LAT0[input_x][input_y] = LAT0[input_x][input_y] + 1
     # 为了有正有负看出回归性，要减256/2=128
-    for i in range(0, 256):
-        for j in range(0, 256):
-            LAT0[i][j] = LAT0[i][j] - 128
+    for i in range(0,256):
+        for j in range(0,256):
+            LAT0[i][j]=LAT0[i][j]-128
 
-
-# 同S0部分代码
 def appendS1LAT():
     for inputS in range(0, 256):  # 对每一个输入S1盒的x进行计算
         input_1 = inputS >> 4
@@ -118,9 +117,9 @@ def appendS1LAT():
                 if xor_x == xor_y:
                     LAT1[input_x][input_y] = LAT1[input_x][input_y] + 1
     # 为了有正有负看出回归性，要减256/2=128
-    for i in range(0, 256):
-        for j in range(0, 256):
-            LAT1[i][j] = LAT1[i][j] - 128
+    for i in range(0,256):
+        for j in range(0,256):
+            LAT1[i][j]=LAT1[i][j]-128
 
 
 # 将两张LAT表输出
