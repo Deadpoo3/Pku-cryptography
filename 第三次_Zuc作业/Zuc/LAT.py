@@ -60,7 +60,6 @@ def getInt2in8bitsInt(num):
     for i in range(0, 8):
         ls.append(num % 2)
         num = num >> 1
-    ls.reverse()
     return ls
 
 
